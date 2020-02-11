@@ -14,3 +14,29 @@
     el.addEventListener("click", cb);
   });
 }
+
+// 2. feladat
+{
+  // 1. változat:
+  // window.addEventListener("scroll", () => {
+  //   document.querySelector("nav").classList.toggle("navbar-scrolled", scrollY > 200);
+  // });
+
+  // 2. változat:
+  // let ticking = false;
+  // window.addEventListener("scroll", () => {
+  //   if (ticking) return;
+  //   document.querySelector("nav").classList.toggle("navbar-scrolled", scrollY > 200);
+  //   window.requestAnimationFrame(() => {
+  //     ticking = false;
+  //   });
+  //   ticking = true;
+  // });
+
+  // 3. változat:
+  // https://lodash.com/docs/4.17.15#throttle
+  const cb = () => {
+    document.querySelector("nav").classList.toggle("navbar-scrolled", scrollY > 200);
+  };
+  window.addEventListener("scroll", _.throttle(cb, 100));
+}
