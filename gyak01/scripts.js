@@ -40,3 +40,29 @@
   };
   window.addEventListener("scroll", _.throttle(cb, 100));
 }
+
+// 3. feladat
+{
+  const cb = entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("animated", entry.target.dataset.scrollAnimation);
+      }
+    });
+  };
+
+  const observer = new IntersectionObserver(cb);
+
+  // nem volt gyakon, így lehet azt, hogy újra lefusson az animáció, ha visszagörgetünk
+  // https://github.com/daneden/animate.css#usage-with-javascript
+  const handleAnimationEnd = event => {
+    event.target.classList.remove("animated", event.target.dataset.scrollAnimation);
+  };
+
+  document.querySelectorAll("[data-scroll]").forEach(el => {
+    observer.observe(el);
+
+    // nem volt gyakon
+    el.addEventListener("animationend", handleAnimationEnd);
+  });
+}
