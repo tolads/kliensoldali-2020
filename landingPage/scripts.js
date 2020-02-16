@@ -66,3 +66,17 @@
     el.addEventListener("animationend", handleAnimationEnd);
   });
 }
+
+// 6. feladat
+// http://aishek.github.io/jquery-animateNumber/
+{
+  const observer = new IntersectionObserver(cb);
+  function cb(entries) {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        $(entry.target).animateNumber({ number: entry.target.dataset.count });
+      }
+    });
+  }
+  document.querySelectorAll("[data-count]").forEach(target => observer.observe(target));
+}
