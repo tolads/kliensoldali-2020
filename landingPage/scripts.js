@@ -80,3 +80,20 @@
   }
   document.querySelectorAll("[data-count]").forEach(target => observer.observe(target));
 }
+
+// 4. feladat
+{
+  const progressDiv = $("<div class='progressDiv' />");
+  // const progressDiv = document.createElement("div");
+  $(document.body).prepend(progressDiv);
+  // document.body.prepend(progressDiv);
+  // progressDiv.classList.add("progressDiv");
+
+  const cb = () => {
+    const maxScroll = document.body.scrollHeight - document.body.clientHeight;
+    const ratio = scrollY / maxScroll;
+    progressDiv.css("width", `${ratio * 100}%`);
+  };
+  // window.addEventListener("scroll", _.throttle(cb, 100));
+  $(window).on("scroll", _.throttle(cb, 100));
+}
