@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <style>
+      textarea {
+        width: 200px;
+        height: 100px;
+      }
+    </style>
+  </head>
+  <body>
+    <template>
+      <style>
+        :host > div {
+          background-color: #ccc;
+          border-radius: 8px;
+        }
+
+        ::slotted(textarea) {
+          border-radius: 8px;
+        }
+      </style>
+      <div>
+        <slot></slot>
+        <div>Character count: <span>0</span></div>
+      </div>
+    </template>
+
+    <div>
+      <textarea-w-count>
+        <textarea>Kezdeti szöveg...</textarea>
+      </textarea-w-count>
+    </div>
+
+    <script src="scripts.js"></script>
+  </body>
+</html>
