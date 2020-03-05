@@ -1,0 +1,27 @@
+#scroll-up {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 4px;
+  background: #4c5b5c url("../img/up-arrow.svg") center / 24px 24px no-repeat;
+  opacity: 0.6;
+  transition: 0.3s all;
+  z-index: 5000;
+  display: none; /* ! */
+}
+
+#scroll-up:hover,
+#scroll-up:focus {
+  opacity: 1;
+}
+
+#scroll-up:active {
+  bottom: 23px;
+}
+
+#scroll-up.show {
+  display: block;
+}
