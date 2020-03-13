@@ -1,0 +1,21 @@
+.track {
+  list-style-type: none;
+  display: flex;
+  border-radius: 4px;
+  background-color: #ddd;
+  padding: 12px;
+  margin-bottom: 2px;
+  width: 300px;
+}
+
+.track img {
+  width: 80px;
+}
+
+.track-content {
+  margin-left: 12px;
+}
+
+.track-artist {
+  font-weight: bold;
+}
