@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { exampleTracks } from "../../domain/track";
 import { Track } from "./Track";
@@ -6,11 +6,15 @@ import { AddNewTrack } from "./AddNewTrack";
 
 export const Tracks = () => {
   const tracks = exampleTracks;
+  const [open, setOpen] = useState(false);
+
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   return (
     <React.Fragment>
       <div className="ui container">
-        <button className="ui right floated green button" id="newModal">
+        <button className="ui right floated green button" id="newModal" onClick={handleOpen}>
           <i className="plus icon"></i>
           New track
         </button>
@@ -31,7 +35,7 @@ export const Tracks = () => {
         </table>
       </div>
 
-      <AddNewTrack />
+      <AddNewTrack open={open} onClose={handleClose} onSubmit={console.log} />
     </React.Fragment>
   );
 };

@@ -1,14 +1,17 @@
 module.exports = {
   parser: "babel-eslint",
   parserOptions: {
-    sourceType: "module"
+    sourceType: "module",
   },
   extends: ["react-app", "plugin:prettier/recommended"],
   env: {
-    jest: true
+    jest: true,
   },
   globals: {
     window: true,
-    document: true
-  }
+    document: true,
+  },
+  rules: {
+    "react/prop-types": "error",
+  },
 };

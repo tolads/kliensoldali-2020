@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
+import { Modal } from "semantic-ui-react";
 
 const fields = [
   {
@@ -33,19 +34,44 @@ const fields = [
     placeholder: "https://",
   },
 ];
+const defaultState = fields.reduce((acc, curr) => ({ ...acc, [curr.name]: "" }), {});
+
+const useForm = (defaultState) => {
+  const [values, setValues] = useState(defaultState);
+  const reset = () => setValues(defaultState);
+  return { values, setValues, reset };
+};
 
 export const AddNewTrack = ({ open, onClose, onSubmit }) => {
+  const { values, setValues, reset } = useForm(defaultState);
+
+  useEffect(() => {
+    if (open) {
+      reset();
+    }
+  }, [open]);
+
   const handleSubmit = (event) => {
     event.preventDefault();
+    onSubmit(values);
+    onClose();
+  };
+
+  const handleChange = (event) => {
+    setValues({ ...values, [event.target.name]: event.target.value });
   };
 
   return (
-    <div className="ui modal">
+    <Modal className="ui modal" open={open} onClose={onClose}>
       <i className="close icon" onClick={onClose}></i>
       <div className="header">Add new Track</div>
       <div className="content">
         <div className="description">
-          <form className="ui form three column grid" onSubmit={handleSubmit}>
+          <form
+            id="add-new-track-form"
+            className="ui form three column grid"
+            onSubmit={handleSubmit}
+          >
             {fields.map((field) => (
               <div key={field.name} className="column field">
                 <label htmlFor={field.name}>{field.label}</label>
@@ -54,6 +80,8 @@ export const AddNewTrack = ({ open, onClose, onSubmit }) => {
                   name={field.name}
                   id={field.name}
                   placeholder={field.placeholder}
+                  value={values[field.name]}
+                  onChange={handleChange}
                 />
               </div>
             ))}
@@ -64,12 +92,17 @@ export const AddNewTrack = ({ open, onClose, onSubmit }) => {
         <button className="ui black deny button" onClick={onClose}>
           Cancel
         </button>
-        <button className="ui positive right labeled icon button" onClick={handleSubmit}>
+        <button
+          type="submit"
+          form="add-new-track-form"
+          className="ui positive right labeled icon button"
+          onClick={handleSubmit}
+        >
           Add
           <i className="plus icon"></i>
         </button>
       </div>
-    </div>
+    </Modal>
   );
 };
 
