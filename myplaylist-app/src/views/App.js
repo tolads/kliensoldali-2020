@@ -15,7 +15,7 @@ export const App = () => {
           <Route exact path="/">
             <Home />
           </Route>
-          <Route path="/playlists">
+          <Route path="/playlists/:playlistId?/:trackId?">
             <Playlists />
           </Route>
           <Route path="/search">

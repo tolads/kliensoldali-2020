@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import PropTypes from "prop-types";
 import { Modal } from "semantic-ui-react";
 
@@ -7,11 +7,13 @@ const fields = [
     label: "Artist",
     name: "artist",
     placeholder: "John Williams",
+    required: true,
   },
   {
     label: "Title",
     name: "title",
     placeholder: "Imperial March",
+    required: true,
   },
   {
     label: "Length",
@@ -38,21 +40,43 @@ const defaultState = fields.reduce((acc, curr) => ({ ...acc, [curr.name]: "" }),
 
 const useForm = (defaultState) => {
   const [values, setValues] = useState(defaultState);
-  const reset = () => setValues(defaultState);
+  const reset = useCallback((newState) => setValues(newState), []);
   return { values, setValues, reset };
 };
 
-export const AddNewTrack = ({ open, onClose, onSubmit }) => {
+const useValidatedForm = (defaultState) => {
   const { values, setValues, reset } = useForm(defaultState);
+  const [error, setError] = useState({});
+
+  useEffect(() => {
+    const newError = {};
+    fields.forEach((field) => {
+      if (field.required && values[field.name].trim() === "") {
+        newError[field.name] = `The ${field.label} field is required.`;
+      }
+    });
+    setError(newError);
+  }, [values]);
+
+  const isError = Object.values(error).some((message) => message);
+
+  return { values, setValues, reset, error, isError };
+};
+
+export const AddOrEditTrack = ({ open, onClose, onSubmit, track }) => {
+  const { values, setValues, reset, error, isError } = useValidatedForm(defaultState);
 
   useEffect(() => {
     if (open) {
-      reset();
+      reset({ ...defaultState, ...track });
     }
-  }, [open]);
+  }, [open, reset, track]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
+
+    if (isError) return;
+
     onSubmit(values);
     onClose();
   };
@@ -86,6 +110,13 @@ export const AddNewTrack = ({ open, onClose, onSubmit }) => {
               </div>
             ))}
           </form>
+          {isError && (
+            <ul className="ui negative message">
+              {Object.entries(error).map(([fieldName, message]) => (
+                <li key={fieldName}>{message}</li>
+              ))}
+            </ul>
+          )}
         </div>
       </div>
       <div className="actions">
@@ -106,8 +137,9 @@ export const AddNewTrack = ({ open, onClose, onSubmit }) => {
   );
 };
 
-AddNewTrack.propTypes = {
+AddOrEditTrack.propTypes = {
   open: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
+  track: PropTypes.shape({}).isRequired,
 };

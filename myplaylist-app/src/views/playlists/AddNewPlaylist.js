@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import { Modal } from "semantic-ui-react";
 import cn from "classnames";
 
+import "./AddNewPlaylist.css";
+
 export const AddNewPlaylist = ({ open, onClose, onSubmit }) => {
   const [title, setTitle] = useState("");
   const [error, setError] = useState(null);
@@ -54,7 +56,12 @@ export const AddNewPlaylist = ({ open, onClose, onSubmit }) => {
                 value={title}
                 onChange={handleChange}
               />
-              {error && <p>{error}</p>}
+              {error && (
+                <p className="error-message" style={{ borderRadius: 8 }}>
+                  {error}
+                </p>
+              )}
+              {/* {error && <p className="ui negative message">{error}</p>} */}
             </div>
           </form>
         </div>

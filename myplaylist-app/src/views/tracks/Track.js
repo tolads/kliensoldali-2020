@@ -1,7 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 import PropTypes from "prop-types";
 
-export const Track = ({ track }) => {
+import { TracksContext } from "../../state/TracksProvider";
+
+export const Track = ({ track, /* onDelete,*/ onEdit }) => {
+  const { deleteTrack } = useContext(TracksContext);
+
+  const handleDelete = () => deleteTrack(track.id);
+
   return (
     <tr>
       <td>
@@ -24,10 +30,10 @@ export const Track = ({ track }) => {
             <div className="item">Movie Soundtracks</div>
           </div>
         </div>
-        <button className="ui icon button">
+        <button className="ui icon button" onClick={onEdit}>
           <i className="edit icon"></i>
         </button>
-        <button className="ui icon button red">
+        <button className="ui icon button red" onClick={handleDelete}>
           <i className="trash icon"></i>
         </button>
       </td>
@@ -37,7 +43,9 @@ export const Track = ({ track }) => {
 
 Track.propTypes = {
   track: PropTypes.shape({
+    id: PropTypes.number.isRequired,
     artist: PropTypes.string,
     title: PropTypes.string,
   }).isRequired,
+  onEdit: PropTypes.func.isRequired,
 };

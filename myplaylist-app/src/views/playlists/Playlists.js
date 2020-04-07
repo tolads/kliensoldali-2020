@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useParams } from "react-router-dom";
 
 import { examplePlaylists } from "../../domain/playlist";
 import { exampleTracks } from "../../domain/track";
@@ -8,18 +9,15 @@ import { TrackDetails } from "./TrackDetails";
 import { AddNewPlaylist } from "./AddNewPlaylist";
 
 export const Playlists = () => {
+  const { playlistId, trackId } = useParams();
+  const selectedPlaylistId = Number(playlistId);
+  const selectedTrackId = Number(trackId);
+
   const [playlists, setPlaylists] = useState(examplePlaylists);
-  const [selectedPlaylistId, setSelectedPlaylistId] = useState(2);
-  const [selectedTrackId, setSelectedTrackId] = useState(1);
   const [open, setOpen] = useState(false);
 
   const selectedPlaylist = playlists.find(({ id }) => id === selectedPlaylistId);
   const selectedTrack = exampleTracks.find(({ id }) => id === selectedTrackId);
-
-  const handlePlaylistChange = (id) => {
-    setSelectedPlaylistId(id);
-    setSelectedTrackId(null);
-  };
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -37,18 +35,9 @@ export const Playlists = () => {
         <div className="ui stackable two column grid">
           <div className="ui six wide column">
             <h3>Playlists</h3>
-            <PlaylistLists
-              playlists={playlists}
-              selected={selectedPlaylistId}
-              onSelect={handlePlaylistChange}
-              addNew={handleOpen}
-            />
+            <PlaylistLists playlists={playlists} addNew={handleOpen} />
           </div>
-          <Playlist
-            {...selectedPlaylist}
-            selected={selectedTrackId}
-            onSelect={setSelectedTrackId}
-          />
+          {selectedPlaylist && <Playlist {...selectedPlaylist} />}
         </div>
         <div className="ui divider"></div>
         <TrackDetails {...selectedTrack} />
