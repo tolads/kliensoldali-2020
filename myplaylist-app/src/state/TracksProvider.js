@@ -25,6 +25,7 @@ export const TracksProvider = ({ children }) => {
     setTracks((prevTracks) => prevTracks.filter((track) => track.id !== trackId));
   };
 
+  console.log({ tracks });
   const value = { tracks, addNewTrack, editTrack, deleteTrack };
 
   return <TracksContext.Provider value={value}>{children}</TracksContext.Provider>;

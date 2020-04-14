@@ -14,19 +14,30 @@ export const PlaylistsProvider = ({ children }) => {
     setPlaylists([...playlists, { id: maxPlaylistId.current, title: title, tracks: [] }]);
   };
 
-  const addTrackToPlaylist = (playlistId, trackParam) => {
+  const addTrackToPlaylist = (playlistId, trackId) => {
     const mapper = (playlist) => {
       if (playlist.id !== playlistId) return playlist;
-      if (playlist.tracks.some((track) => track.id === trackParam.id)) return playlist;
+      if (playlist.tracks.some((track) => track.id === trackId)) return playlist;
       return {
         ...playlist,
-        tracks: [...playlist.tracks, trackParam],
+        tracks: [...playlist.tracks, trackId],
       };
     };
     setPlaylists(playlists.map(mapper));
   };
 
-  const value = { playlists, addNewPlaylist, addTrackToPlaylist };
+  const deleteTrackFromPlaylist = (trackIdParam) => {
+    const mapper = (playlist) => {
+      return {
+        ...playlist,
+        tracks: playlist.tracks.filter((trackId) => trackIdParam !== trackId),
+      };
+    };
+    setPlaylists(playlists.map(mapper));
+  };
+
+  console.log({ playlists });
+  const value = { playlists, addNewPlaylist, addTrackToPlaylist, deleteTrackFromPlaylist };
 
   return <PlaylistsContext.Provider value={value}>{children}</PlaylistsContext.Provider>;
 };

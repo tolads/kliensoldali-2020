@@ -7,11 +7,14 @@ import { PlaylistsContext } from "../../state/PlaylistsProvider";
 
 export const Track = ({ track, onEdit }) => {
   const { deleteTrack } = useContext(TracksContext);
-  const { playlists, addTrackToPlaylist } = useContext(PlaylistsContext);
+  const { playlists, addTrackToPlaylist, deleteTrackFromPlaylist } = useContext(PlaylistsContext);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [filterText, setFilterText] = useState("");
 
-  const handleDelete = () => deleteTrack(track.id);
+  const handleDelete = () => {
+    deleteTrack(track.id);
+    deleteTrackFromPlaylist(track.id);
+  };
   const handleChange = (event) => {
     setFilterText(event.target.value);
   };
@@ -55,7 +58,7 @@ export const Track = ({ track, onEdit }) => {
                 key={playlist.id}
                 className="item"
                 onClick={() => {
-                  addTrackToPlaylist(playlist.id, track);
+                  addTrackToPlaylist(playlist.id, track.id);
                   setDropdownOpen(false);
                 }}
               >
