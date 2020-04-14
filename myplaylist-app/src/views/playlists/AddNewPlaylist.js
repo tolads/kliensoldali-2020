@@ -28,7 +28,6 @@ export const AddNewPlaylist = ({ open, onClose, onSubmit }) => {
       setError(null);
     }
 
-    console.log(event);
     onSubmit({ title }); // controlled
     // onSubmit({ title: inputRef.current.value }); // uncontrolled
     onClose();

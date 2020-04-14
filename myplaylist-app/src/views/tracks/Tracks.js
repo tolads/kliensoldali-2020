@@ -1,19 +1,15 @@
-import React, { useState, /* useRef, */ useContext } from "react";
+import React, { useState, useContext } from "react";
 
 import { TracksContext } from "../../state/TracksProvider";
-// import { exampleTracks } from "../../domain/track";
 import { Track } from "./Track";
 import { AddOrEditTrack } from "./AddOrEditTrack";
 
 export const Tracks = () => {
   const { tracks, addNewTrack, editTrack } = useContext(TracksContext);
 
-  // const [tracks, setTracks] = useState(exampleTracks);
   const [open, setOpen] = useState(false);
   const [editedTrack, setEditedTrack] = useState({});
 
-  // const maxTrackId = useRef(tracks.reduce((acc, curr) => Math.max(acc, curr.id), 0));
-  // console.log({ maxTrackId });
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 

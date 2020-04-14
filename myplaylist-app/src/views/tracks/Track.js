@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 
 import { TracksContext } from "../../state/TracksProvider";
 
-export const Track = ({ track, /* onDelete,*/ onEdit }) => {
+export const Track = ({ track, onEdit }) => {
   const { deleteTrack } = useContext(TracksContext);
 
   const handleDelete = () => deleteTrack(track.id);
