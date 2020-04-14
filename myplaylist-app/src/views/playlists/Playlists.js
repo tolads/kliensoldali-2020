@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useParams } from "react-router-dom";
 
-import { examplePlaylists } from "../../domain/playlist";
 import { exampleTracks } from "../../domain/track";
+import { PlaylistsContext } from "../../state/PlaylistsProvider";
 import { PlaylistLists } from "./PlaylistLists";
 import { Playlist } from "./Playlist";
 import { TrackDetails } from "./TrackDetails";
@@ -13,7 +13,7 @@ export const Playlists = () => {
   const selectedPlaylistId = Number(playlistId);
   const selectedTrackId = Number(trackId);
 
-  const [playlists, setPlaylists] = useState(examplePlaylists);
+  const { playlists, addNewPlaylist } = useContext(PlaylistsContext);
   const [open, setOpen] = useState(false);
 
   const selectedPlaylist = playlists.find(({ id }) => id === selectedPlaylistId);
@@ -21,12 +21,6 @@ export const Playlists = () => {
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-
-  const addNewPlaylist = ({ title }) => {
-    const reducer = (acc, curr) => Math.max(acc, curr.id);
-    const maxId = playlists.reduce(reducer, 0);
-    setPlaylists([...playlists, { id: maxId + 1, title: title, tracks: [] }]);
-  };
 
   return (
     <>
