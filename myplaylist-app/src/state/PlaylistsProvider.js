@@ -1,6 +1,7 @@
 import React, { createContext, useState, useRef } from "react";
 import PropTypes from "prop-types";
 
+import "../api";
 import { examplePlaylists } from "../domain/playlist";
 
 export const PlaylistsContext = createContext();
