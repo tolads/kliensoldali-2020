@@ -80,7 +80,7 @@ export const Track = ({ track, onEdit }) => {
 
 Track.propTypes = {
   track: PropTypes.shape({
-    id: PropTypes.number.isRequired,
+    id: PropTypes.string.isRequired,
     artist: PropTypes.string,
     title: PropTypes.string,
   }).isRequired,

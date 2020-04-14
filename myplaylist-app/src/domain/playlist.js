@@ -2,17 +2,17 @@ import { exampleTracks } from "./track";
 
 export const examplePlaylists = [
   {
-    id: 1,
+    id: "1",
     title: "Heavy Metal",
     tracks: exampleTracks.slice(0, 4).map((track) => track.id),
   },
   {
-    id: 2,
+    id: "2",
     title: "Classics",
     tracks: exampleTracks.slice(0, 3).map((track) => track.id),
   },
   {
-    id: 3,
+    id: "3",
     title: "Movie Soundtracks",
     tracks: exampleTracks.slice(2, 3).map((track) => track.id),
   },

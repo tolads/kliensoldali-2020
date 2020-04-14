@@ -11,8 +11,8 @@ import { AddNewPlaylist } from "./AddNewPlaylist";
 
 export const Playlists = () => {
   const { playlistId, trackId } = useParams();
-  const selectedPlaylistId = Number(playlistId);
-  const selectedTrackId = Number(trackId);
+  const selectedPlaylistId = playlistId;
+  const selectedTrackId = trackId;
 
   const { tracks } = useContext(TracksContext);
   const { playlists, addNewPlaylist } = useContext(PlaylistsContext);
