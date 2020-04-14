@@ -42,14 +42,29 @@ class NeDBStorage {
   }
 }
 
-const playlistsInstance = new Nedb({ filename: "playlists.nedb", autoload: true });
-export const playlists = new NeDBStorage(playlistsInstance);
+class MyPlaylistAppStorage extends NeDBStorage {
+  constructor(name) {
+    const dbInstance = new Nedb({ filename: `${name}.nedb`, autoload: true });
+    super(dbInstance);
+  }
+  async fill(list) {
+    await this.remove();
+    list.map(swapIdField).forEach(async (obj) => {
+      await this.insert(obj);
+    });
+    console.log(await this.find());
+  }
+  async getAll() {
+    const list = await this.find();
+    return list.map(swapIdField);
+  }
+  async create(obj) {
+    const response = await this.insert(obj);
+    return swapIdField(response);
+  }
+}
 
-const fill = async () => {
-  await playlists.remove();
-  examplePlaylists.map(swapIdField).forEach(async (playlist) => {
-    await playlists.insert(playlist);
-  });
-  console.log(await playlists.find());
-};
-fill();
+export const playlists = new MyPlaylistAppStorage("playlists");
+export const tracks = new MyPlaylistAppStorage("tracks");
+
+// playlists.fill(examplePlaylists);
