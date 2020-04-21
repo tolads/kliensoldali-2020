@@ -1,17 +1,18 @@
 import { exampleTracks } from "../../domain/track";
+import { ADD_TRACK, UPDATE_TRACK, DELETE_TRACK } from "./actions";
 
 const initialState = { items: exampleTracks };
 
 export const tracksReducer = (state = initialState, action) => {
   const { type, payload } = action;
 
-  if (type === "ADD_TRACK") {
+  if (type === ADD_TRACK) {
     return {
       items: [...state.items, payload],
     };
   }
 
-  if (type === "UPDATE_TRACK") {
+  if (type === UPDATE_TRACK) {
     const mapper = (track) => {
       return track.id === payload.id ? payload : track;
     };
@@ -20,7 +21,7 @@ export const tracksReducer = (state = initialState, action) => {
     };
   }
 
-  if (type === "DELETE_TRACK") {
+  if (type === DELETE_TRACK) {
     return {
       items: state.items.filter((track) => track.id !== payload.id),
     };

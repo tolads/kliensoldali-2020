@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
+import { addTrack, updateTrack } from "../../state/tracks/actions";
 import { Track } from "./Track";
 import { AddOrEditTrack } from "./AddOrEditTrack";
 
@@ -14,13 +15,6 @@ export const Tracks = () => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const addNewTrack = (track) => {
-    dispatch({ type: "ADD_TRACK", payload: { ...track, id: Date.now().toString() } });
-  };
-  const editTrack = (track) => {
-    dispatch({ type: "UPDATE_TRACK", payload: track });
-  };
-
   const startToEdit = (track) => {
     setEditedTrack(track);
     handleOpen();
@@ -33,9 +27,9 @@ export const Tracks = () => {
 
   const handleSubmit = (track) => {
     if (typeof track.id === "string") {
-      editTrack(track);
+      dispatch(updateTrack(track));
     } else {
-      addNewTrack(track);
+      dispatch(addTrack(track));
     }
   };
 

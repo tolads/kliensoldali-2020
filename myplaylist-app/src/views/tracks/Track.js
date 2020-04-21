@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { Dropdown } from "semantic-ui-react";
 import { useDispatch } from "react-redux";
 
+import { deleteTrack } from "../../state/tracks/actions";
 import { PlaylistsContext } from "../../state/PlaylistsProvider";
 
 export const Track = ({ track, onEdit }) => {
@@ -11,12 +12,8 @@ export const Track = ({ track, onEdit }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [filterText, setFilterText] = useState("");
 
-  const deleteTrack = (trackId) => {
-    dispatch({ type: "DELETE_TRACK", payload: { id: trackId } });
-  };
-
   const handleDelete = () => {
-    deleteTrack(track.id);
+    dispatch(deleteTrack(track.id));
     deleteTrackFromPlaylist(track.id);
   };
   const handleChange = (event) => {
