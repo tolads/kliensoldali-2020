@@ -2,11 +2,12 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { addTrack, updateTrack } from "../../state/tracks/actions";
+import { getTracks } from "../../state/tracks/selectors";
 import { Track } from "./Track";
 import { AddOrEditTrack } from "./AddOrEditTrack";
 
 export const Tracks = () => {
-  const tracks = useSelector((state) => state.tracks.items);
+  const tracks = useSelector(getTracks);
   const dispatch = useDispatch();
   console.log(tracks);
   const [open, setOpen] = useState(false);
