@@ -17,26 +17,31 @@ export const PlaylistsProvider = ({ children }) => {
     setPlaylists([...playlists, newPlaylist]);
   };
 
-  const addTrackToPlaylist = (playlistId, trackId) => {
+  const addTrackToPlaylist = async (playlistId, trackId) => {
+    const playlist = playlists.find((pl) => pl.id === playlistId);
+    if (playlist.tracks.some((id) => id === trackId)) return;
+    const updatedPlaylist = { ...playlist, tracks: [...playlist.tracks, trackId] };
+    await api.playlists.update(updatedPlaylist);
     const mapper = (playlist) => {
       if (playlist.id !== playlistId) return playlist;
-      if (playlist.tracks.some((track) => track.id === trackId)) return playlist;
-      return {
-        ...playlist,
-        tracks: [...playlist.tracks, trackId],
-      };
+      return updatedPlaylist;
     };
     setPlaylists(playlists.map(mapper));
   };
 
-  const deleteTrackFromPlaylist = (trackIdParam) => {
-    const mapper = (playlist) => {
-      return {
+  const deleteTrackFromPlaylist = async (trackIdParam) => {
+    const mapper = async (playlist) => {
+      if (playlist.tracks.every((id) => id !== trackIdParam)) return playlist;
+
+      const newPlaylist = {
         ...playlist,
         tracks: playlist.tracks.filter((trackId) => trackIdParam !== trackId),
       };
+      await api.playlists.update(newPlaylist);
+      console.log(newPlaylist);
+      return newPlaylist;
     };
-    setPlaylists(playlists.map(mapper));
+    setPlaylists(await Promise.all(playlists.map(mapper)));
   };
 
   console.log({ playlists });

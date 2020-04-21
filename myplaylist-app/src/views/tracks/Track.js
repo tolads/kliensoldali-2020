@@ -1,15 +1,19 @@
 import React, { useContext, useState } from "react";
 import PropTypes from "prop-types";
 import { Dropdown } from "semantic-ui-react";
+import { useDispatch } from "react-redux";
 
-import { TracksContext } from "../../state/TracksProvider";
 import { PlaylistsContext } from "../../state/PlaylistsProvider";
 
 export const Track = ({ track, onEdit }) => {
-  const { deleteTrack } = useContext(TracksContext);
+  const dispatch = useDispatch();
   const { playlists, addTrackToPlaylist, deleteTrackFromPlaylist } = useContext(PlaylistsContext);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [filterText, setFilterText] = useState("");
+
+  const deleteTrack = (trackId) => {
+    dispatch({ type: "DELETE_TRACK", payload: { id: trackId } });
+  };
 
   const handleDelete = () => {
     deleteTrack(track.id);

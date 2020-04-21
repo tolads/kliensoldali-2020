@@ -62,9 +62,17 @@ class MyPlaylistAppStorage extends NeDBStorage {
     const response = await this.insert(obj);
     return swapIdField(response);
   }
+  async update(obj) {
+    const { id, ...rest } = obj;
+    return super.update(id, rest);
+  }
+  delete(id) {
+    return this.remove(id);
+  }
 }
 
 export const playlists = new MyPlaylistAppStorage("playlists");
 export const tracks = new MyPlaylistAppStorage("tracks");
 
 // playlists.fill(examplePlaylists);
+// api.tracks.update;
