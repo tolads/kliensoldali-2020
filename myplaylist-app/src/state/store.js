@@ -1,4 +1,5 @@
-import { createStore, combineReducers } from "redux";
+import { createStore, combineReducers, applyMiddleware } from "redux";
+import { createLogger } from "redux-logger";
 
 import { playlistsReducer } from "./playlists/reducer";
 import { tracksReducer } from "./tracks/reducer";
@@ -7,5 +8,9 @@ import { tracksReducer } from "./tracks/reducer";
 const rootReducer = combineReducers({ playlists: playlistsReducer, tracks: tracksReducer });
 
 export const configureStore = (preloadedState) => {
-  return createStore(rootReducer, preloadedState);
+  const logger = createLogger({
+    collapsed: true,
+  });
+
+  return createStore(rootReducer, preloadedState, applyMiddleware(logger));
 };
