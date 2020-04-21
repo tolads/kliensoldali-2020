@@ -1,9 +1,10 @@
 import React, { useState, useContext } from "react";
 import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 import { exampleTracks } from "../../domain/track";
 import { PlaylistsContext } from "../../state/PlaylistsProvider";
-import { TracksContext } from "../../state/TracksProvider";
+import { getPlaylistsWithTracks } from "../../state/selectors";
 import { PlaylistLists } from "./PlaylistLists";
 import { Playlist } from "./Playlist";
 import { TrackDetails } from "./TrackDetails";
@@ -14,16 +15,10 @@ export const Playlists = () => {
   const selectedPlaylistId = playlistId;
   const selectedTrackId = trackId;
 
-  const { tracks } = useContext(TracksContext);
-  const { playlists, addNewPlaylist } = useContext(PlaylistsContext);
+  const { addNewPlaylist } = useContext(PlaylistsContext);
   const [open, setOpen] = useState(false);
 
-  const playlistsWithTracks = playlists.map((playlist) => ({
-    ...playlist,
-    tracks: playlist.tracks
-      .map((trackId) => tracks.find((track) => track.id === trackId))
-      .filter((track) => track),
-  }));
+  const playlistsWithTracks = useSelector(getPlaylistsWithTracks);
   console.log({ playlistsWithTracks });
 
   const selectedPlaylist = playlistsWithTracks.find(({ id }) => id === selectedPlaylistId);
