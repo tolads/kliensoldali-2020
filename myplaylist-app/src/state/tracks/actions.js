@@ -1,3 +1,5 @@
+import { deleteTrackFromPlaylist } from "../playlists/actions";
+
 export const ADD_TRACK = "ADD_TRACK";
 export const UPDATE_TRACK = "UPDATE_TRACK";
 export const DELETE_TRACK = "DELETE_TRACK";
@@ -18,7 +20,14 @@ export const updateTrack = (track) => ({
   payload: track,
 });
 
-export const deleteTrack = (id) => ({
+export const deleteTrackFromStore = (id) => ({
   type: DELETE_TRACK,
   payload: { id },
 });
+
+export const deleteTrack = (id) => {
+  return (dispatch) => {
+    dispatch(deleteTrackFromStore(id));
+    dispatch(deleteTrackFromPlaylist(id));
+  };
+};

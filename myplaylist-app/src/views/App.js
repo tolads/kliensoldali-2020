@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 import * as api from "../api";
 
 import { setTracks } from "../state/tracks/actions";
-import { setPlaylists } from "../state/playlists/actions";
+import { fetchPlaylists } from "../state/playlists/actions";
 import { Layout } from "./components/Layout";
 import { Home } from "./home/Home";
 import { Playlists } from "./playlists/Playlists";
@@ -16,10 +16,8 @@ export const App = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    api.playlists.getAll().then((playlistsData) => {
-      dispatch(setPlaylists(playlistsData));
-    });
-    api.playlists.getAll().then((tracksData) => {
+    dispatch(fetchPlaylists());
+    api.tracks.getAll().then((tracksData) => {
       dispatch(setTracks(tracksData));
     });
   }, [dispatch]);
