@@ -2,8 +2,8 @@ import React, { useEffect } from "react";
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
-import { examplePlaylists } from "../domain/playlist";
-import { exampleTracks } from "../domain/track";
+import * as api from "../api";
+
 import { setTracks } from "../state/tracks/actions";
 import { setPlaylists } from "../state/playlists/actions";
 import { Layout } from "./components/Layout";
@@ -16,8 +16,12 @@ export const App = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(setTracks(exampleTracks));
-    dispatch(setPlaylists(examplePlaylists));
+    api.playlists.getAll().then((playlistsData) => {
+      dispatch(setPlaylists(playlistsData));
+    });
+    api.playlists.getAll().then((tracksData) => {
+      dispatch(setTracks(tracksData));
+    });
   }, [dispatch]);
 
   return (
