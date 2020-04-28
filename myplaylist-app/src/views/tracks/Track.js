@@ -1,20 +1,20 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { Dropdown } from "semantic-ui-react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { deleteTrack } from "../../state/tracks/actions";
-import { PlaylistsContext } from "../../state/PlaylistsProvider";
+import { addTrackToPlaylist } from "../../state/playlists/actions";
+import { getPlaylists } from "../../state/playlists/selectors";
 
 export const Track = ({ track, onEdit }) => {
   const dispatch = useDispatch();
-  const { playlists, addTrackToPlaylist, deleteTrackFromPlaylist } = useContext(PlaylistsContext);
+  const playlists = useSelector(getPlaylists);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [filterText, setFilterText] = useState("");
 
   const handleDelete = () => {
     dispatch(deleteTrack(track.id));
-    deleteTrackFromPlaylist(track.id);
   };
   const handleChange = (event) => {
     setFilterText(event.target.value);
@@ -59,7 +59,7 @@ export const Track = ({ track, onEdit }) => {
                 key={playlist.id}
                 className="item"
                 onClick={() => {
-                  addTrackToPlaylist(playlist.id, track.id);
+                  dispatch(addTrackToPlaylist(playlist.id, track.id));
                   setDropdownOpen(false);
                 }}
               >

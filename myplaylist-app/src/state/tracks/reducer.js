@@ -1,10 +1,15 @@
-import { exampleTracks } from "../../domain/track";
-import { ADD_TRACK, UPDATE_TRACK, DELETE_TRACK } from "./actions";
+import { ADD_TRACK, UPDATE_TRACK, DELETE_TRACK, SET_TRACKS } from "./actions";
 
-const initialState = { items: exampleTracks };
+const initialState = { items: [] };
 
 export const tracksReducer = (state = initialState, action) => {
   const { type, payload } = action;
+
+  if (type === SET_TRACKS) {
+    return {
+      items: payload,
+    };
+  }
 
   if (type === ADD_TRACK) {
     return {

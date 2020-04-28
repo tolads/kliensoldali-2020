@@ -1,6 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
+import { examplePlaylists } from "../domain/playlist";
+import { exampleTracks } from "../domain/track";
+import { setTracks } from "../state/tracks/actions";
+import { setPlaylists } from "../state/playlists/actions";
 import { Layout } from "./components/Layout";
 import { Home } from "./home/Home";
 import { Playlists } from "./playlists/Playlists";
@@ -8,6 +13,13 @@ import { Search } from "./search/Search";
 import { Tracks } from "./tracks/Tracks";
 
 export const App = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(setTracks(exampleTracks));
+    dispatch(setPlaylists(examplePlaylists));
+  }, [dispatch]);
+
   return (
     <BrowserRouter>
       <Layout>
