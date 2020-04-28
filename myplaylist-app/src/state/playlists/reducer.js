@@ -1,5 +1,4 @@
 import { ADD_PLAYLIST, UPDATE_PLAYLIST, SET_PLAYLISTS } from "./actions";
-import { DELETE_TRACK } from "../tracks/actions";
 
 const initialState = { items: [] };
 

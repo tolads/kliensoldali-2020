@@ -1,4 +1,4 @@
-import * as api from "../../api";
+import * as api from "../../api/rest";
 import { getPlaylists } from "./selectors";
 
 export const ADD_PLAYLIST = "ADD_PLAYLIST";

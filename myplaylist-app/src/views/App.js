@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
-import * as api from "../api";
+import * as api from "../api/rest";
 
 import { setTracks } from "../state/tracks/actions";
 import { fetchPlaylists } from "../state/playlists/actions";
