@@ -7,9 +7,17 @@ import { App } from "./views/App";
 
 const store = configureStore();
 
-ReactDOM.render(
-  <Provider store={store}>
-    <App />
-  </Provider>,
-  document.getElementById("root")
-);
+const renderApp = () => {
+  ReactDOM.render(
+    <Provider store={store}>
+      <App />
+    </Provider>,
+    document.getElementById("root")
+  );
+};
+
+renderApp();
+
+if (module.hot && process.env.NODE_ENV !== "production") {
+  module.hot.accept("views/App", renderApp);
+}

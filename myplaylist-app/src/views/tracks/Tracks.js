@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { addTrack, updateTrack } from "../../state/tracks/actions";
-import { getTracks, getIsTracksFetching } from "../../state/tracks/selectors";
+import { addTrack, updateTrack } from "state/tracks/actions";
+import { getTracks, getIsTracksFetching } from "state/tracks/selectors";
 import { Track } from "./Track";
 import { AddOrEditTrack } from "./AddOrEditTrack";
 
@@ -42,7 +42,7 @@ export const Tracks = () => {
           <i className="plus icon"></i>
           New track
         </button>
-        <h1>Tracks</h1>
+        <h1>Tracks asd asd</h1>
         <div style={{ position: "relative" }}>
           {fetching && (
             <div className="ui active inverted dimmer">
