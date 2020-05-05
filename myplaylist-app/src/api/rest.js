@@ -1,6 +1,12 @@
-const request = (path) => {
-  return fetch(path, {
-    headers: { Accept: "application/json" },
+const BASE_PATH = "http://localhost:3030/";
+
+const request = (path, params) => {
+  return fetch(`${BASE_PATH}${path}`, {
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    ...params,
   }).then((response) => response.json());
 };
 
@@ -12,11 +18,23 @@ const convertPlaylist = (playlist) => ({
 
 export const playlists = {
   getAll: async () => {
-    const playlists = await request("http://localhost:3030/playlists").then(({ data }) => data);
+    const playlists = await request("playlists").then(({ data }) => data);
     return playlists.map(convertPlaylist);
   },
-  create: () => {},
-  update: () => {},
+  create: async (playlistParam) => {
+    const playlist = await request("playlists", {
+      method: "POST",
+      body: JSON.stringify(playlistParam),
+    });
+    return convertPlaylist(playlist);
+  },
+  update: async (playlistParam) => {
+    const playlist = await request(`playlists/${playlistParam.id}`, {
+      method: "PUT",
+      body: JSON.stringify(playlistParam),
+    });
+    return convertPlaylist(playlist);
+  },
   delete: () => {},
 };
 
@@ -27,10 +45,26 @@ const convertTrack = (track) => ({
 
 export const tracks = {
   getAll: async () => {
-    const tracks = await request("http://localhost:3030/tracks").then(({ data }) => data);
+    const tracks = await request("tracks").then(({ data }) => data);
     return tracks.map(convertTrack);
   },
-  create: () => {},
-  update: () => {},
-  delete: () => {},
+  create: async (tracksParam) => {
+    const tracks = await request("tracks", {
+      method: "POST",
+      body: JSON.stringify(tracksParam),
+    });
+    return convertTrack(tracks);
+  },
+  update: async (tracksParam) => {
+    const tracks = await request(`tracks/${tracksParam.id}`, {
+      method: "PUT",
+      body: JSON.stringify(tracksParam),
+    });
+    return convertTrack(tracks);
+  },
+  delete: (id) => {
+    return request(`tracks/${id}`, {
+      method: "DELETE",
+    });
+  },
 };

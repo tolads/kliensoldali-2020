@@ -2,14 +2,15 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { addTrack, updateTrack } from "../../state/tracks/actions";
-import { getTracks } from "../../state/tracks/selectors";
+import { getTracks, getIsTracksFetching } from "../../state/tracks/selectors";
 import { Track } from "./Track";
 import { AddOrEditTrack } from "./AddOrEditTrack";
 
 export const Tracks = () => {
   const tracks = useSelector(getTracks);
+  const fetching = useSelector(getIsTracksFetching);
   const dispatch = useDispatch();
-  console.log(tracks);
+  console.log({ tracks, fetching });
   const [open, setOpen] = useState(false);
   const [editedTrack, setEditedTrack] = useState({});
 
@@ -42,20 +43,27 @@ export const Tracks = () => {
           New track
         </button>
         <h1>Tracks</h1>
-        <table className="ui celled striped table">
-          <thead>
-            <tr>
-              <th>Artist</th>
-              <th>Title</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {tracks.map((track) => (
-              <Track key={track.id} track={track} onEdit={() => startToEdit(track)} />
-            ))}
-          </tbody>
-        </table>
+        <div style={{ position: "relative" }}>
+          {fetching && (
+            <div className="ui active inverted dimmer">
+              <div className="ui large elastic text loader">Loading</div>
+            </div>
+          )}
+          <table className="ui celled striped table">
+            <thead>
+              <tr>
+                <th>Artist</th>
+                <th>Title</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {tracks.map((track) => (
+                <Track key={track.id} track={track} onEdit={() => startToEdit(track)} />
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
 
       <AddOrEditTrack
