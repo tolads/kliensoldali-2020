@@ -68,3 +68,15 @@ export const tracks = {
     });
   },
 };
+
+export const login = async (username, password) => {
+  const object = {
+    email: username,
+    password: password,
+    strategy: "local",
+  };
+  return request("authentication", {
+    method: "POST",
+    body: JSON.stringify(object),
+  });
+};

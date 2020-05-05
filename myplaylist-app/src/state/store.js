@@ -8,11 +8,16 @@ import { createLogger } from "redux-logger";
 import { composeWithDevTools } from "redux-devtools-extension";
 import thunk from "redux-thunk";
 
+import { authReducer } from "./auth/reducer";
 import { playlistsReducer } from "./playlists/reducer";
 import { tracksReducer } from "./tracks/reducer";
 
 // rootReducer(state, action) => state
-const rootReducer = combineReducers({ playlists: playlistsReducer, tracks: tracksReducer });
+const rootReducer = combineReducers({
+  auth: authReducer,
+  playlists: playlistsReducer,
+  tracks: tracksReducer,
+});
 
 export const configureStore = () => {
   const logger = createLogger({
