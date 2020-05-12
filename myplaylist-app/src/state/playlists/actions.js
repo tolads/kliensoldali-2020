@@ -1,5 +1,6 @@
 import * as api from "../../api/rest";
 import { getPlaylists } from "./selectors";
+import { authenticatedRequest } from "../auth/actions";
 
 export const ADD_PLAYLIST = "ADD_PLAYLIST";
 export const UPDATE_PLAYLIST = "UPDATE_PLAYLIST";
@@ -22,7 +23,7 @@ export const updatePlaylist = (playlist) => ({
 
 export const fetchPlaylists = () => {
   return (dispatch) => {
-    api.playlists.getAll().then((playlistsData) => {
+    dispatch(authenticatedRequest(api.playlists.getAll)).then((playlistsData) => {
       dispatch(setPlaylists(playlistsData));
     });
   };
@@ -30,7 +31,9 @@ export const fetchPlaylists = () => {
 
 export const addPlaylist = (title) => {
   return async (dispatch) => {
-    const playlist = await api.playlists.create({ title: title, tracks: [] });
+    const playlist = await dispatch(
+      authenticatedRequest(api.playlists.create, { title: title, tracks: [] })
+    );
     dispatch(addPlaylistToStore(playlist));
   };
 };
@@ -41,7 +44,7 @@ export const addTrackToPlaylist = (playlistId, trackId) => {
     const playlist = playlists.find((pl) => pl.id === playlistId);
     if (playlist.tracks.some((id) => id === trackId)) return;
     const updatedPlaylist = { ...playlist, tracks: [...playlist.tracks, trackId] };
-    await api.playlists.update(updatedPlaylist);
+    await dispatch(authenticatedRequest(api.playlists.update, updatedPlaylist));
     dispatch(updatePlaylist(updatedPlaylist));
   };
 };
@@ -55,7 +58,7 @@ export const deleteTrackFromPlaylist = (trackId) => {
         ...playlist,
         tracks: playlist.tracks.filter((id) => id !== trackId),
       };
-      await api.playlists.update(updatedPlaylist);
+      await dispatch(authenticatedRequest(api.playlists.update, updatedPlaylist));
       dispatch(updatePlaylist(updatedPlaylist));
     });
   };

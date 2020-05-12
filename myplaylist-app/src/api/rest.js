@@ -1,10 +1,11 @@
 const BASE_PATH = "http://localhost:3030/";
 
-const request = (path, params) => {
+const request = (path, params, token) => {
   return fetch(`${BASE_PATH}${path}`, {
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
+      ...(token ? { Authorization: token } : {}),
     },
     ...params,
   }).then((response) => response.json());
@@ -17,25 +18,32 @@ const convertPlaylist = (playlist) => ({
 });
 
 export const playlists = {
-  getAll: async () => {
-    const playlists = await request("playlists").then(({ data }) => data);
+  getAll: async (token) => {
+    const playlists = await request("playlists", {}, token).then(({ data }) => data);
     return playlists.map(convertPlaylist);
   },
-  create: async (playlistParam) => {
-    const playlist = await request("playlists", {
-      method: "POST",
-      body: JSON.stringify(playlistParam),
-    });
+  create: async (playlistParam, token) => {
+    const playlist = await request(
+      "playlists",
+      {
+        method: "POST",
+        body: JSON.stringify(playlistParam),
+      },
+      token
+    );
     return convertPlaylist(playlist);
   },
-  update: async (playlistParam) => {
-    const playlist = await request(`playlists/${playlistParam.id}`, {
-      method: "PUT",
-      body: JSON.stringify(playlistParam),
-    });
+  update: async (playlistParam, token) => {
+    const playlist = await request(
+      `playlists/${playlistParam.id}`,
+      {
+        method: "PUT",
+        body: JSON.stringify(playlistParam),
+      },
+      token
+    );
     return convertPlaylist(playlist);
   },
-  delete: () => {},
 };
 
 const convertTrack = (track) => ({
@@ -44,28 +52,40 @@ const convertTrack = (track) => ({
 });
 
 export const tracks = {
-  getAll: async () => {
-    const tracks = await request("tracks").then(({ data }) => data);
+  getAll: async (token) => {
+    const tracks = await request("tracks", {}, token).then(({ data }) => data);
     return tracks.map(convertTrack);
   },
-  create: async (tracksParam) => {
-    const tracks = await request("tracks", {
-      method: "POST",
-      body: JSON.stringify(tracksParam),
-    });
+  create: async (tracksParam, token) => {
+    const tracks = await request(
+      "tracks",
+      {
+        method: "POST",
+        body: JSON.stringify(tracksParam),
+      },
+      token
+    );
     return convertTrack(tracks);
   },
-  update: async (tracksParam) => {
-    const tracks = await request(`tracks/${tracksParam.id}`, {
-      method: "PUT",
-      body: JSON.stringify(tracksParam),
-    });
+  update: async (tracksParam, token) => {
+    const tracks = await request(
+      `tracks/${tracksParam.id}`,
+      {
+        method: "PUT",
+        body: JSON.stringify(tracksParam),
+      },
+      token
+    );
     return convertTrack(tracks);
   },
-  delete: (id) => {
-    return request(`tracks/${id}`, {
-      method: "DELETE",
-    });
+  delete: (id, token) => {
+    return request(
+      `tracks/${id}`,
+      {
+        method: "DELETE",
+      },
+      token
+    );
   },
 };
 

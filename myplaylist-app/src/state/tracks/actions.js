@@ -1,5 +1,6 @@
 import * as api from "../../api/rest";
 import { deleteTrackFromPlaylist } from "../playlists/actions";
+import { authenticatedRequest } from "../auth/actions";
 
 export const ADD_TRACK = "ADD_TRACK";
 export const UPDATE_TRACK = "UPDATE_TRACK";
@@ -34,7 +35,7 @@ export const deleteTrackFromStore = (id) => ({
 export const fetchTracks = () => {
   return (dispatch) => {
     dispatch(startTrackFetching());
-    api.tracks.getAll().then((tracksData) => {
+    dispatch(authenticatedRequest(api.tracks.getAll)).then((tracksData) => {
       dispatch(setTracks(tracksData));
     });
   };
@@ -43,7 +44,7 @@ export const fetchTracks = () => {
 export const addTrack = (trackParam) => {
   return async (dispatch) => {
     dispatch(startTrackFetching());
-    const track = await api.tracks.create(trackParam);
+    const track = await dispatch(authenticatedRequest(api.tracks.create, trackParam));
     dispatch(addTrackToStore(track));
   };
 };
@@ -51,7 +52,7 @@ export const addTrack = (trackParam) => {
 export const updateTrack = (trackParam) => {
   return async (dispatch) => {
     dispatch(startTrackFetching());
-    const track = await api.tracks.update(trackParam);
+    const track = await dispatch(authenticatedRequest(api.tracks.update, trackParam));
     dispatch(updateTrackInStore(track));
   };
 };
@@ -59,7 +60,7 @@ export const updateTrack = (trackParam) => {
 export const deleteTrack = (id) => {
   return async (dispatch) => {
     dispatch(startTrackFetching());
-    await api.tracks.delete(id);
+    await dispatch(authenticatedRequest(api.tracks.delete, id));
     dispatch(deleteTrackFromStore(id));
     dispatch(deleteTrackFromPlaylist(id));
   };

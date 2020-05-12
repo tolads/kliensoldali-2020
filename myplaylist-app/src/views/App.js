@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
+import { getIsLoggedIn } from "state/auth/selectors";
 import { fetchTracks } from "../state/tracks/actions";
 import { fetchPlaylists } from "../state/playlists/actions";
 import { Layout } from "./components/Layout";
@@ -12,11 +13,14 @@ import { Tracks } from "./tracks/Tracks";
 
 export const App = () => {
   const dispatch = useDispatch();
+  const isLoggedIn = useSelector(getIsLoggedIn);
 
   useEffect(() => {
-    dispatch(fetchPlaylists());
-    dispatch(fetchTracks());
-  }, [dispatch]);
+    if (isLoggedIn) {
+      dispatch(fetchPlaylists());
+      dispatch(fetchTracks());
+    }
+  }, [dispatch, isLoggedIn]);
 
   return (
     <BrowserRouter>
