@@ -1,6 +1,6 @@
 import * as api from "../../api/rest";
 import { getPlaylists } from "./selectors";
-import { authenticatedRequest } from "../auth/actions";
+import { authenticatedRequest, requestWithUserId } from "../auth/actions";
 
 export const ADD_PLAYLIST = "ADD_PLAYLIST";
 export const UPDATE_PLAYLIST = "UPDATE_PLAYLIST";
@@ -23,7 +23,7 @@ export const updatePlaylist = (playlist) => ({
 
 export const fetchPlaylists = () => {
   return (dispatch) => {
-    dispatch(authenticatedRequest(api.playlists.getAll)).then((playlistsData) => {
+    dispatch(requestWithUserId(api.playlists.getAll)).then((playlistsData) => {
       dispatch(setPlaylists(playlistsData));
     });
   };

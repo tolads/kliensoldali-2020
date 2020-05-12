@@ -1,7 +1,11 @@
 const BASE_PATH = "http://localhost:3030/";
 
-const request = (path, params, token) => {
-  return fetch(`${BASE_PATH}${path}`, {
+const request = (path, params, token, userId) => {
+  let url = `${BASE_PATH}${path}`;
+  if (userId !== undefined) {
+    url += `?userId=${userId}`;
+  }
+  return fetch(url, {
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
@@ -18,8 +22,8 @@ const convertPlaylist = (playlist) => ({
 });
 
 export const playlists = {
-  getAll: async (token) => {
-    const playlists = await request("playlists", {}, token).then(({ data }) => data);
+  getAll: async (token, userId) => {
+    const playlists = await request("playlists", {}, token, userId).then(({ data }) => data);
     return playlists.map(convertPlaylist);
   },
   create: async (playlistParam, token) => {
