@@ -7,11 +7,19 @@ import { deleteTrack } from "../../state/tracks/actions";
 import { addTrackToPlaylist } from "../../state/playlists/actions";
 import { getPlaylists } from "../../state/playlists/selectors";
 
-export const Track = ({ track, onEdit }) => {
+// export const Track = ({ track, onEdit }) => {
+export const Track = (props) => {
+  const { track, onEdit } = props;
+  // const track = props.track;
+  // const onEdit = props.onEdit;
+
   const dispatch = useDispatch();
   const playlists = useSelector(getPlaylists);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [filterText, setFilterText] = useState("");
+  // const stateArray = useState("");
+  // const filterText = stateArray[0];
+  // const setFilterText = stateArray[1];
 
   const handleDelete = () => {
     dispatch(deleteTrack(track.id));
