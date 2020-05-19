@@ -2,10 +2,11 @@ const Sequelize = require('sequelize');
 
 const db = {};
 
+const dialect = process.env.NODE_ENV === 'production' ? 'mysql' : 'sqlite';
+
 const sequelize = new Sequelize('stratego', 'stratego', 'stratego', {
+  dialect,
   host: 'localhost',
-  // dialect: 'mysql',
-  dialect: 'sqlite',
   storage: 'stratego.sqlite',
   logging: false,
   define: {
@@ -20,7 +21,7 @@ const rooms = sequelize.define('rooms', {
     allowNull: false
   },
   state: {
-    type: Sequelize.JSON,
+    type: Sequelize.TEXT('long'),
     allowNull: true
   }
 }, {

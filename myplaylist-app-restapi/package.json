@@ -29,7 +29,7 @@
     "dev": "nodemon src/",
     "start": "node src/",
     "jest": "jest  --forceExit",
-    "prod": "forever start --append -l forever.log -o out.log -e err.log src/index.js"
+    "prod": "NODE_ENV=production forever start --append -l forever.log -o out.log -e err.log src/index.js"
   },
   "standard": {
     "env": [

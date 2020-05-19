@@ -20,7 +20,7 @@ const authentication = require('./authentication');
 
 const sequelize = require('./sequelize');
 
-const chatRoom = require('./sockets');
+const gameRoom = require('./sockets');
 
 const app = express(feathers());
 
@@ -38,7 +38,7 @@ app.use('/', express.static(app.get('public')));
 
 // Set up Plugins and providers
 app.configure(express.rest());
-app.configure(socketio(chatRoom(app)));
+app.configure(socketio(gameRoom(app)));
 
 app.configure(sequelize);
 
